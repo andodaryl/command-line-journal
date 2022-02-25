@@ -9,10 +9,10 @@ class JournalEntry:
   Creates journal entry instances.
   '''
   def __init__(self, text):
-    today = datetime.today()
-    self.date = datetime.date(today)
-    self.time = datetime.time(today)
-    self.text = text
+    timestamp = datetime.today()
+    self.date = datetime.date(timestamp)
+    self.time = datetime.time(timestamp)
+    self.text = str(text)
 
 # CRUD Operations
 def create_entry(text):
@@ -26,19 +26,21 @@ def get_entry(index):
   '''
   Retrieves existing journal entry.
   '''
-  return database[index]
+  return database[index] if int(index) else None
 
 def update_entry(index, text):
   '''
   Updates existing journal entry.
   '''
-  database[index].text = text
+  if int(index):
+    database[index].text = text
 
 def delete_entry(index):
   '''
   Deletes existing journal entry.
   '''
-  database.pop(index)
+  if int(index):
+    database.pop(index)
 
 # Testing
 print('Current database:')
