@@ -18,12 +18,12 @@ CREDS = Credentials.from_service_account_file('creds.json')
 
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-DATABASE = GSPREAD_CLIENT.open('clj_database')
+EXT_DATABASE = GSPREAD_CLIENT.open('clj_database')
 
-JOURNAL_ENTRIES = DATABASE.worksheet('journal_entries')
+JOURNAL_ENTRIES = EXT_DATABASE.worksheet('journal_entries')
 
 # Data Types
-database = [] #remove once google sheets is fixed
+INT_DATABASE = [] #remove once google sheets is fixed
 
 class JournalEntry:
     '''
@@ -76,26 +76,26 @@ class JournalEntry:
 # CRUD Operations
 def create_entry(text):
     '''
-    Adds new journal entry to database.
+    Adds new journal entry to INT_DATABASE.
     '''
     new_entry = JournalEntry(text)
-    database.append(new_entry) # convert to google sheets API
+    INT_DATABASE.append(new_entry) # convert to google sheets API
 
 def get_entry(index):
     '''
     Retrieves existing journal entry.
     '''
 
-    return database[index]
+    return INT_DATABASE[index]
 
 def update_entry(index, text):
     '''
     Updates existing journal entry.
     '''
-    database[index].text = text
+    INT_DATABASE[index].text = text
 
 def delete_entry(index):
     '''
     Deletes existing journal entry.
     '''
-    database.pop(index)
+    INT_DATABASE.pop(index)
