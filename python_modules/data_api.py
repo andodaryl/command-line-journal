@@ -22,6 +22,20 @@ class JournalEntry:
         self.text = str(text)
 
     @property
+    def timestamp(self):
+        '''
+        Returns private date property.
+        '''
+        return self._timestamp
+
+    @timestamp.setter
+    def timestamp(self, new_timestamp):
+        '''
+        Sets private timestamp property.
+        '''
+        self._timestamp = new_timestamp
+
+    @property
     def date(self):
         '''
         Returns private date property i.e. read only.
@@ -70,3 +84,4 @@ def delete_entry(index):
     '''
     if int(index): # convert to google sheets API
         database.pop(index)
+        
