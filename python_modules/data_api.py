@@ -75,13 +75,10 @@ def update_entry(index, text):
     '''
     Updates existing journal entry.
     '''
-    if int(index): # convert to google sheets API
-        database[index].text = text
+    database[index].text = text
 
 def delete_entry(index):
     '''
     Deletes existing journal entry.
     '''
-    if int(index): # convert to google sheets API
-        database.pop(index)
-        
+    database.pop(index)
