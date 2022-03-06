@@ -5,13 +5,17 @@ Module for data manipulation and storage.
 # Imports
 import time
 from datetime import datetime
+from collections import namedtuple
 from google.oauth2.service_account import Credentials
 import gspread
 
-def get_data_api():
+def _get_data_api():
     '''
     IIFE for API namespace
     '''
+    # Helper Functions
+    namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
+
     # Database initialiser
     def init_database(database_name, worksheet_name, data_titles):
         '''
@@ -151,12 +155,14 @@ def get_data_api():
         # Find journal entry row using index ID and delete
 
     # Public API
-    return {
-        create_entry,
-        get_entry,
-        update_entry,
-        delete_entry,
-        JournalEntry
+    _public_api = {
+        'create_entry': create_entry,
+        'get_entry': get_entry,
+        'update_entry': update_entry,
+        'delete_entry': delete_entry,
+        'JournalEntry': JournalEntry
     }
 
-DATA_API = get_data_api()
+    return namedtuple_from_dict('data_api', _public_api)
+
+data_api = _get_data_api()
