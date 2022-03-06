@@ -55,6 +55,23 @@ class JournalEntry:
         self._timestamp = new_timestamp if isinstance(new_timestamp, float) else time.time()
 
     @property
+    def text(self):
+        '''
+        Returns private text property.
+        '''
+        return self._text
+
+    @text.setter
+    def text(self, new_text):
+        '''
+        Sets private text property.
+        '''
+        try:
+            self._text = str(new_text)
+        except (NameError, UnicodeEncodeError):
+            self._text = self._text # Silent fail to default value
+
+    @property
     def date(self):
         '''
         Returns private date property i.e. read only.
