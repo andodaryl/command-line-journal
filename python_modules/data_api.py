@@ -65,15 +65,26 @@ def _get_data_api():
         '''
         Creates journal entry instances.
         '''
-        # Private variables
-        _timestamp = 0.0
-        _datetime = None
-        _text = "Empty"
 
         def __init__(self, text, timestamp = None):
-            # id = stack
+            # Private variables
+            self._timestamp = 0.0
+            self._datetime = None
+            self._text = "Empty"
+            # Public variables
             self.timestamp = timestamp
             self.text = str(text)
+            # Id Creation >>> incremented integer IDs for stacked entries
+            try:
+                id_list = EXT_DATABASE.col_values(1) # Get values of column 1 i.e. IDs
+                safe_id_list = [int(val) for val in id_list if val.isdigit()]
+                if len(safe_id_list) == 0:
+                    self._id = 1
+                else:
+                    previous_id = max(safe_id_list) # Get highest ID in stack
+                    self._id = previous_id + 1 # Increment
+            except gspread.exceptions.GSpreadException:
+                self._id = 'autosave_' + str(self.timestamp) # String ID for error handling
 
         @property
         def timestamp(self):
@@ -106,6 +117,13 @@ def _get_data_api():
                 self._text = str(new_text)
             except (NameError, UnicodeEncodeError):
                 self._text = self._text # Silent fail to default value
+
+        @property
+        def identity(self):
+            '''
+            Returns private id property i.e. read only.
+            '''
+            return self._id
 
         @property
         def date(self):
