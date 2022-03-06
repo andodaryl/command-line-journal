@@ -33,6 +33,7 @@ class JournalEntry:
     '''
     # Private variables
     _timestamp = 0.0
+    _datetime = None
     _text = "Empty"
 
     def __init__(self, text, timestamp = None):
@@ -50,9 +51,10 @@ class JournalEntry:
     @timestamp.setter
     def timestamp(self, new_timestamp):
         '''
-        Sets private timestamp property.
+        Sets private timestamp property and datetime equivalent.
         '''
         self._timestamp = new_timestamp if isinstance(new_timestamp, float) else time.time()
+        self._datetime = datetime.fromtimestamp(self._timestamp)
 
     @property
     def text(self):
@@ -76,14 +78,14 @@ class JournalEntry:
         '''
         Returns private date property i.e. read only.
         '''
-        return datetime.date(self._timestamp)
+        return datetime.date(self._datetime)
 
     @property
     def time(self):
         '''
         Returns private time property i.e. read only.
         '''
-        return datetime.time(self._timestamp)
+        return datetime.time(self._datetime)
 
     def display(self):
         '''
