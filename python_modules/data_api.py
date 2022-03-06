@@ -32,8 +32,8 @@ class JournalEntry:
     Creates journal entry instances.
     '''
     # Private variables
-    _timestamp = None
-    _text = ""
+    _timestamp = 0.0
+    _text = "Empty"
 
     def __init__(self, text, timestamp = None):
         # id = stack
