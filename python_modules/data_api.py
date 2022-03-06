@@ -3,6 +3,7 @@ Module for data manipulation and storage.
 '''
 
 # Imports
+import time
 from datetime import datetime
 from google.oauth2.service_account import Credentials
 import gspread
@@ -23,7 +24,8 @@ EXT_DATABASE = GSPREAD_CLIENT.open('clj_database')
 JOURNAL_ENTRIES = EXT_DATABASE.worksheet('journal_entries')
 
 # Data Types
-INT_DATABASE = [] #remove once google sheets is fixed
+INT_DATABASE = []
+DATA_TITLES = ['ID', 'DATETIME', 'TEXT']
 
 class JournalEntry:
     '''
@@ -33,7 +35,7 @@ class JournalEntry:
     _timestamp = None
     _text = ""
 
-    def __init__(self, text, timestamp = datetime.today()):
+    def __init__(self, text, timestamp = None):
         # id = stack
         self.timestamp = timestamp
         self.text = str(text)
@@ -50,7 +52,7 @@ class JournalEntry:
         '''
         Sets private timestamp property.
         '''
-        self._timestamp = new_timestamp
+        self._timestamp = new_timestamp if isinstance(new_timestamp, float) else time.time()
 
     @property
     def date(self):
