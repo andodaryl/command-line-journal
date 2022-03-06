@@ -45,7 +45,8 @@ def get_data_api():
 
         # ensure first row are data titles
         for column, title in enumerate(data_titles):
-            journal_entries.update_cell(1, column, title)
+            safe_column = column + 1
+            journal_entries.update_cell(1, safe_column, title)
 
         return journal_entries
 
