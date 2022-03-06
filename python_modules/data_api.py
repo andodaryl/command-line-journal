@@ -12,6 +12,43 @@ def get_data_api():
     '''
     IIFE for API namespace
     '''
+    # Database initialiser
+    def init_database(database_name, worksheet_name, data_titles):
+        '''
+        Loads or creates external database from Google Sheets.
+        '''
+        scope_list = [
+            "https://www.googleapis.com/auth/spreadsheets",
+            "https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/drive"
+            ]
+
+        creds_data = Credentials.from_service_account_file('creds.json')
+
+        scoped_creds = creds_data.with_scopes(scope_list)
+        gspread_client = gspread.authorize(scoped_creds)
+
+        # get spreadsheet else create spreadsheet
+        database = None
+        try:
+            database = gspread_client.open(database_name)
+        except gspread.exceptions.GSpreadException:
+            new_spreadsheet = gspread_client.create(database_name)
+            database = new_spreadsheet
+
+        # get worksheet else create worksheet
+        journal_entries = None
+        try:
+            journal_entries = database.worksheet(worksheet_name)
+        except gspread.exceptions.GSpreadException:
+            database.add_worksheet(worksheet_name, 500, data_titles.length)
+
+        # ensure first row are data titles
+        for column, title in enumerate(data_titles):
+            journal_entries.update_cell(1, column, title)
+
+        return journal_entries
+
     # Data Types
     EXT_DATABASE = init_database(
       database_name = 'clj_database',
@@ -92,62 +129,25 @@ def get_data_api():
         Adds new journal entry to EXT_DATABASE.
         '''
         new_entry = JournalEntry(text)
-        EXT_DATABASE.append(new_entry) # convert to google sheets API
+        # Use JournalEntry instance to validate data and create new journal entry row using next index ID for EXT_DATABASE
 
     def get_entry(index):
         '''
         Retrieves existing journal entry.
         '''
-
-        return EXT_DATABASE[index] # convert to google sheets API
+        # Find journal entry row using index ID, create JournalEntry instance to validate data and return contents as list
 
     def update_entry(index, text):
         '''
         Updates existing journal entry.
         '''
-        EXT_DATABASE[index].text = text # convert to google sheets API
+        # Find journal entry row using index ID and update
 
     def delete_entry(index):
         '''
         Deletes existing journal entry.
         '''
-        EXT_DATABASE.pop(index) # convert to google sheets API
-
-    def init_database(database_name, worksheet_name, data_titles):
-        '''
-        Loads or creates external database from Google Sheets.
-        '''
-        scope_list = [
-            "https://www.googleapis.com/auth/spreadsheets",
-            "https://www.googleapis.com/auth/drive.file",
-            "https://www.googleapis.com/auth/drive"
-            ]
-
-        creds_data = Credentials.from_service_account_file('creds.json')
-
-        scoped_creds = creds_data.with_scopes(scope_list)
-        gspread_client = gspread.authorize(scoped_creds)
-
-        # get spreadsheet else create spreadsheet
-        database = None
-        try:
-            database = gspread_client.open(database_name)
-        except gspread.exceptions.GSpreadException:
-            new_spreadsheet = gspread_client.create(database_name)
-            database = new_spreadsheet
-
-        # get worksheet else create worksheet
-        journal_entries = None
-        try:
-            journal_entries = database.worksheet(worksheet_name)
-        except gspread.exceptions.GSpreadException:
-            database.add_worksheet(worksheet_name, 500, data_titles.length)
-
-        # ensure first row are data titles
-        for column, title in enumerate(data_titles):
-            journal_entries.update_cell(1, column, title)
-
-        return journal_entries
+        # Find journal entry row using index ID and delete
 
     # Public API
     return {
