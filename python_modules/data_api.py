@@ -8,24 +8,12 @@ from datetime import datetime
 from google.oauth2.service_account import Credentials
 import gspread
 
-# External Database
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive"
-    ]
-
-CREDS = Credentials.from_service_account_file('creds.json')
-
-SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-EXT_DATABASE = GSPREAD_CLIENT.open('clj_database')
-
-JOURNAL_ENTRIES = EXT_DATABASE.worksheet('journal_entries')
-
 # Data Types
-INT_DATABASE = []
-DATA_TITLES = ['ID', 'DATETIME', 'TEXT']
+EXT_DATABASE = init_database(
+  database_name = 'clj_database',
+  worksheet_name = 'journal_entries',
+  data_titles = ['ID', 'DATETIME', 'TEXT']
+  )
 
 class JournalEntry:
     '''
@@ -97,26 +85,62 @@ class JournalEntry:
 # CRUD Operations
 def create_entry(text):
     '''
-    Adds new journal entry to INT_DATABASE.
+    Adds new journal entry to EXT_DATABASE.
     '''
     new_entry = JournalEntry(text)
-    INT_DATABASE.append(new_entry) # convert to google sheets API
+    EXT_DATABASE.append(new_entry) # convert to google sheets API
 
 def get_entry(index):
     '''
     Retrieves existing journal entry.
     '''
 
-    return INT_DATABASE[index]
+    return EXT_DATABASE[index] # convert to google sheets API
 
 def update_entry(index, text):
     '''
     Updates existing journal entry.
     '''
-    INT_DATABASE[index].text = text
+    EXT_DATABASE[index].text = text # convert to google sheets API
 
 def delete_entry(index):
     '''
     Deletes existing journal entry.
     '''
-    INT_DATABASE.pop(index)
+    EXT_DATABASE.pop(index) # convert to google sheets API
+
+def init_database(database_name, worksheet_name, data_titles):
+    '''
+    Loads or creates external database from Google Sheets.
+    '''
+    scope_list = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive"
+        ]
+
+    creds_data = Credentials.from_service_account_file('creds.json')
+
+    scoped_creds = creds_data.with_scopes(scope_list)
+    gspread_client = gspread.authorize(scoped_creds)
+
+    # get spreadsheet else create spreadsheet
+    database = None
+    try:
+        database = gspread_client.open(database_name)
+    except gspread.exceptions.GSpreadException:
+        new_spreadsheet = gspread_client.create(database_name)
+        database = new_spreadsheet
+
+    # get worksheet else create worksheet
+    journal_entries = None
+    try:
+        journal_entries = database.worksheet(worksheet_name)
+    except gspread.exceptions.GSpreadException:
+        database.add_worksheet(worksheet_name, 500, data_titles.length)
+
+    # ensure first row are data titles
+    for column, title in enumerate(data_titles):
+        journal_entries.update_cell(1, column, title)
+
+    return journal_entries
