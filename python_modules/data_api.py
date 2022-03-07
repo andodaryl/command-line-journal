@@ -55,7 +55,7 @@ def _get_data_api():
         return journal_entries
 
     # Data Types
-    EXT_DATABASE = init_database(
+    ext_database = init_database(
       database_name = 'clj_database',
       worksheet_name = 'journal_entries',
       data_titles = ['ID', 'DATETIME', 'TEXT']
@@ -76,7 +76,7 @@ def _get_data_api():
             self.text = str(text)
             # Id Creation >>> incremented integer IDs for stacked entries
             try:
-                id_list = EXT_DATABASE.col_values(1) # Get values of column 1 i.e. IDs
+                id_list = ext_database.col_values(1) # Get values of column 1 i.e. IDs
                 safe_id_list = [int(val) for val in id_list if val.isdigit()]
                 if len(safe_id_list) == 0:
                     self._id = 1
@@ -149,10 +149,10 @@ def _get_data_api():
     # CRUD Operations
     def create_entry(text):
         '''
-        Adds new journal entry to EXT_DATABASE.
+        Adds new journal entry to ext_database.
         '''
         new_entry = JournalEntry(text)
-        # Use JournalEntry instance to validate data and create new journal entry row using next index ID for EXT_DATABASE
+        # Use JournalEntry instance to validate data and create new journal entry row using next index ID for ext_database
 
     def get_entry(index):
         '''
