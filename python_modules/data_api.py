@@ -161,9 +161,7 @@ def _get_data_api():
         new_entry = JournalEntry(text, timestamp) # valid data
         new_entry_data = [new_entry.identity, new_entry.timestamp, new_entry.text]
         database_found = ext_database.get_all_values()
-        print(f'Old database: {database_found}')
         database_found.append(new_entry_data)
-        print(f'Updated database: {database_found}')
         ext_database.update('A:C', database_found)
 
     def get_entry(identity):
