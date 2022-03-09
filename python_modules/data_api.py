@@ -14,8 +14,23 @@ def _get_data_api():
     IIFE for API namespace
     '''
     # Helper Functions
+    def get_index(target, source):
+        '''
+        Index method with error handling.
+        '''
+        result = None
+        try:
+            result = source.index(target)
+        except (ValueError, TypeError):
+            result = None
+        return result
+
     namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
-    is_valid_identity = lambda identity: isinstance(identity, int)
+
+    is_valid_identity = lambda num: num.isdigit() if isinstance(num, str) else isinstance(num, int)
+
+    is_valid_timestamp = lambda num: num.isdigit() if isinstance(num, str) else isinstance(num, int)
+
     is_valid_entry_data = lambda data: len(data) == 3 if isinstance(data, list) else False
 
     # Database initialiser
@@ -114,7 +129,8 @@ def _get_data_api():
             '''
             Sets private timestamp property and datetime equivalent.
             '''
-            self._timestamp = new_timestamp if isinstance(new_timestamp, float) else time.time()
+            safe = int(new_timestamp) if is_valid_timestamp(new_timestamp) else int(time.time())
+            self._timestamp = safe
             self._datetime = datetime.fromtimestamp(self._timestamp)
 
         @property
@@ -156,9 +172,10 @@ def _get_data_api():
             '''
             return datetime.time(self._datetime)
 
+        @property
         def details(self):
             '''
-            Return main details of journal entry.
+            Return main details of journal entry i.e. read only.
             '''
             return f'{self.date} {self.time} >>> {self.text}'
 
@@ -169,40 +186,76 @@ def _get_data_api():
         '''
         return ext_database.get_all_values()
 
-    def create_entry(text, timestamp = None):
+    def replace_all_data(new_database):
+        '''
+        Replace database with new database received as list of lists.
+        '''
+        ext_database.clear()
+        ext_database.update('A:C', new_database)
+
+    def create_entry(text, timestamp, identity):
         '''
         Adds new journal entry to ext_database.
         '''
-        new_entry = JournalEntry(text, timestamp) # valid data
+        new_entry = JournalEntry([identity, timestamp, text]) # validate data
         new_entry_data = [new_entry.identity, new_entry.timestamp, new_entry.text]
-        database_found = ext_database.get_all_values()
-        database_found.append(new_entry_data)
-        ext_database.update('A:C', database_found)
+        database_found = get_all_data()
+        new_database = database_found.copy()
+        new_database.append(new_entry_data)
+        replace_all_data(new_database)
 
     def get_entry(identity):
         '''
-        Retrieves existing journal entry from database as list.
+        Generate journal entry instance from existing data in database.
         '''
-        result = None
+        journal_entry = None
         if is_valid_identity(identity):
-            filter_logic = lambda entry: entry[0] == identity
             data = get_all_data()
-            entry_found = filter(filter_logic, data)
-            _, timestamp, text = entry_found if entry_found else [None, None, None]
-            result = JournalEntry(text, timestamp)
-        return result
+            filter_logic = lambda entry: entry[0] == str(identity)
+            filter_result = filter(filter_logic, data)
+            entry_found = next(filter_result, None)
+            journal_entry = JournalEntry(entry_found) if entry_found else None
+        return journal_entry
 
-    def update_entry(index, text):
+    def update_entry(identity, text, timestamp):
         '''
         Updates existing journal entry.
         '''
-        # Find journal entry row using index ID and update
+        if is_valid_identity(identity):
+            old_entry = get_entry(identity)
+            search_data = [
+              str(old_entry.identity),
+              str(old_entry.timestamp),
+              str(old_entry.text)
+              ]
+            database_found = get_all_data()
+            entry_found = get_index(search_data, database_found)
+            # update entry
+            if entry_found:
+                new_entry = JournalEntry([identity, timestamp, text]) # validate data
+                new_database = database_found.copy()
+                new_database[entry_found][1] = new_entry.timestamp
+                new_database[entry_found][2] = new_entry.text
+                replace_all_data(new_database)
 
-    def delete_entry(index):
+    def delete_entry(identity):
         '''
         Deletes existing journal entry.
         '''
-        # Find journal entry row using index ID and delete
+        if is_valid_identity(identity):
+            old_entry = get_entry(identity)
+            search_data = [
+              str(old_entry.identity),
+              str(old_entry.timestamp),
+              str(old_entry.text)
+              ]
+            database_found = get_all_data()
+            entry_found = get_index(search_data, database_found)
+            # delete entry
+            if entry_found:
+                new_database = database_found.copy()
+                new_database.pop(entry_found)
+                replace_all_data(new_database)
 
     # Public API
     _public_api = {
