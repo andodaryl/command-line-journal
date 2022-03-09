@@ -15,7 +15,8 @@ def _get_data_api():
     '''
     # Helper Functions
     namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
-    is_valid_identity = lambda identity: isinstance(identity, float)
+    is_valid_identity = lambda identity: isinstance(identity, int)
+    is_valid_entry_data = lambda data: len(data) == 3 if isinstance(data, list) else False
 
     # Database initialiser
     def init_database(database_name, worksheet_name, data_titles):
@@ -67,25 +68,39 @@ def _get_data_api():
         Creates journal entry instances.
         '''
 
-        def __init__(self, text, timestamp = None):
+        def __init__(self, entry_data = None):
+            empty_data = [None, None, None]
+            safe_data = entry_data if is_valid_entry_data(entry_data) else empty_data
+            identity_given, timestamp_given, text_given = safe_data
             # Private variables
             self._timestamp = 0.0
             self._datetime = None
             self._text = "Empty"
             # Public variables
-            self.timestamp = timestamp
-            self.text = str(text)
-            # Id Creation >>> incremented integer IDs for stacked entries
-            try:
-                id_list = ext_database.col_values(1) # Get values of column 1 i.e. IDs
-                safe_id_list = [int(val) for val in id_list if val.isdigit()]
-                if len(safe_id_list) == 0:
-                    self._id = 1
-                else:
-                    previous_id = max(safe_id_list) # Get highest ID in stack
-                    self._id = previous_id + 1 # Increment
-            except gspread.exceptions.GSpreadException:
-                self._id = 'autosave_' + str(self.timestamp) # String ID for error handling
+            self.timestamp = timestamp_given
+            self.text = text_given
+            self._id = self._get_valid_identity(identity_given, self.timestamp)
+
+        @staticmethod
+        def _get_valid_identity(identity, timestamp):
+            '''
+            Returns valid identity from input.
+            i.e. incremented integers else autosave string for error handling.
+            '''
+            safe_identity = identity
+            if not is_valid_identity(identity):
+                try:
+                    id_list = ext_database.col_values(1) # Get values of column 1 i.e. IDs
+                    safe_id_list = [int(val) for val in id_list if val.isdigit()]
+                    if len(safe_id_list) == 0: # If no valid IDs found start with first
+                        safe_identity = 1
+                    else:
+                        previous_id = max(safe_id_list) # Get highest ID in stack
+                        safe_identity = previous_id + 1 # Increment
+                except gspread.exceptions.GSpreadException:
+                    # String ID for error handling
+                    safe_identity = 'autosave_' + str(timestamp)
+            return safe_identity
 
         @property
         def timestamp(self):
@@ -115,7 +130,8 @@ def _get_data_api():
             Sets private text property.
             '''
             try:
-                self._text = str(new_text)
+                if new_text:
+                    self._text = str(new_text)
             except (NameError, UnicodeEncodeError):
                 self._text = self._text # Silent fail to default value
 
@@ -140,12 +156,11 @@ def _get_data_api():
             '''
             return datetime.time(self._datetime)
 
-        def display(self):
+        def details(self):
             '''
-            Prints details of journal entry.
+            Return main details of journal entry.
             '''
-            description = f'{self.date} {self.time} >>> {self.text}'
-            print(description)
+            return f'{self.date} {self.time} >>> {self.text}'
 
     # CRUD Operations
     def get_all_data():
