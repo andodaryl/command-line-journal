@@ -15,6 +15,7 @@ def _get_data_api():
     '''
     # Helper Functions
     namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
+    is_valid_identity = lambda identity: isinstance(identity, float)
 
     # Database initialiser
     def init_database(database_name, worksheet_name, data_titles):
@@ -147,6 +148,12 @@ def _get_data_api():
             print(description)
 
     # CRUD Operations
+    def get_all_data():
+        '''
+        Get all data from database as list of lists.
+        '''
+        return ext_database.get_all_values()
+
     def create_entry(text, timestamp = None):
         '''
         Adds new journal entry to ext_database.
@@ -159,11 +166,18 @@ def _get_data_api():
         print(f'Updated database: {database_found}')
         ext_database.update('A:C', database_found)
 
-    def get_entry(index):
+    def get_entry(identity):
         '''
-        Retrieves existing journal entry.
+        Retrieves existing journal entry from database as list.
         '''
-        # Find journal entry row using index ID, create JournalEntry instance to validate data and return contents as list
+        result = None
+        if is_valid_identity(identity):
+            filter_logic = lambda entry: entry[0] == identity
+            data = get_all_data()
+            entry_found = filter(filter_logic, data)
+            _, timestamp, text = entry_found if entry_found else [None, None, None]
+            result = JournalEntry(text, timestamp)
+        return result
 
     def update_entry(index, text):
         '''
