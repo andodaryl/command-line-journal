@@ -11,7 +11,7 @@ import gspread
 
 def _get_data_api():
     '''
-    IIFE for API namespace
+    Data API namespace
     '''
     # Helper Functions
     def get_index(target, source):
@@ -75,7 +75,7 @@ def _get_data_api():
     ext_database = init_database(
       database_name = 'clj_database',
       worksheet_name = 'journal_entries',
-      data_titles = ['ID', 'DATETIME', 'TEXT']
+      data_titles = ['ID', 'TIMESTAMP', 'TEXT']
       )
 
     class JournalEntry:
@@ -263,7 +263,6 @@ def _get_data_api():
         'get_entry': get_entry,
         'update_entry': update_entry,
         'delete_entry': delete_entry,
-        'JournalEntry': JournalEntry
     }
 
     return namedtuple_from_dict('data_api', _public_api)
