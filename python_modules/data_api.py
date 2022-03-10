@@ -5,7 +5,7 @@ Module for data manipulation and storage.
 # Imports
 import time
 from datetime import datetime
-from collections import namedtuple
+from helper_api import helper_api as helper
 from google.oauth2.service_account import Credentials
 import gspread
 
@@ -14,19 +14,6 @@ def _get_data_api():
     Data API namespace
     '''
     # Helper Functions
-    def get_index(target, source):
-        '''
-        Index method with error handling.
-        '''
-        result = None
-        try:
-            result = source.index(target)
-        except (ValueError, TypeError):
-            result = None
-        return result
-
-    namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
-
     is_valid_identity = lambda num: num.isdigit() if isinstance(num, str) else isinstance(num, int)
 
     is_valid_timestamp = lambda num: num.isdigit() if isinstance(num, str) else isinstance(num, int)
@@ -229,7 +216,7 @@ def _get_data_api():
               str(old_entry.text)
               ]
             database_found = get_all_data()
-            entry_found = get_index(search_data, database_found)
+            entry_found = helper.get_index(search_data, database_found)
             # update entry
             if entry_found:
                 new_entry = JournalEntry([identity, timestamp, text]) # validate data
@@ -250,7 +237,7 @@ def _get_data_api():
               str(old_entry.text)
               ]
             database_found = get_all_data()
-            entry_found = get_index(search_data, database_found)
+            entry_found = helper.get_index(search_data, database_found)
             # delete entry
             if entry_found:
                 new_database = database_found.copy()
@@ -265,6 +252,6 @@ def _get_data_api():
         'delete_entry': delete_entry,
     }
 
-    return namedtuple_from_dict('data_api', _public_api)
+    return helper.namedtuple_from_dict('data_api', _public_api)
 
 data_api = _get_data_api()
