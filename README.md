@@ -78,6 +78,7 @@ Currently this is the visual design choice to focus efforts on back-end developm
 ### Bugs
 
 #### Fixed  
+* Import Error caused by `pynput` module for Python - fixed by using `keyboard` module according to this [forum discussion](https://unix.stackexchange.com/questions/427345/keyboard-monitoring-without-display). Screenshot [here](./dev/media/pynput_error.png).
 
 #### Backlog
 
@@ -176,6 +177,7 @@ Content Generators / Sources
 Frameworks / Libraries
 * [Gpsread for Python](https://gspread.org/)
 * [Google Auth for Python](https://google-auth.readthedocs.io/en/master/)
+* [Keyboard for Python](https://github.com/boppreh/keyboard)
 
 Languages
 * [HTML5 - Included in Template](https://www.w3schools.com/html/)
