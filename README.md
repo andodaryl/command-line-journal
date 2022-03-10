@@ -41,10 +41,11 @@ Stage 1
 Stage 2
 * User Input Feedback
 * Backup System
-* More Data Types For Journal Entries
+* New User Input: Custom ID/Timestamp with Error Handling
 
 Stage 3
 * New Front End Design
+* More Data Types For Journal Entries
 
 Stage X
 * Final testing and bug fixing
@@ -151,6 +152,7 @@ Tutorials
 
 * [Getters and Setters in Python](https://www.geeksforgeeks.org/getter-and-setter-in-python/)
 * [Nametuples in Python](https://www.freecodecamp.org/news/python-namedtuple-examples-how-to-create-and-work-with-namedtuples/)
+* [Detect Key Press in Python](https://www.geeksforgeeks.org/how-to-detect-if-a-specific-key-pressed-using-python/)
 
 Development Tools / Sources
 
