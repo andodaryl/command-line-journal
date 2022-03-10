@@ -81,7 +81,7 @@ Currently this is the visual design choice to focus efforts on back-end developm
 * Import Error caused by `pynput` module for Python - fixed by using `keyboard` module according to this [forum discussion](https://unix.stackexchange.com/questions/427345/keyboard-monitoring-without-display). Screenshot [here](./dev/media/pynput_error.png).
 
 #### Backlog
-* * Import Error caused by `keyboard` module for Python - to be fixed by using `Python-evdev` module as an alternative. Screenshot [here](./dev/media/keyboard_error.png).
+* * Import Error caused by `keyboard` module for Python, requires root - to be fixed by ~using `Python-evdev` module as an alternative.~ this may not be possible because of keyboard device requirements. Issue will be fixed using input() instead. Screenshot [here](./dev/media/keyboard_error.png).
 
 ### Testing
 
