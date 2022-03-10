@@ -164,7 +164,7 @@ def _get_data_api():
             '''
             Return main details of journal entry i.e. read only.
             '''
-            return f'{self.date} {self.time} >>> {self.text}'
+            return f'({self.identity}) {self.date} {self.time} >>> {self.text}'
 
     # CRUD Operations
     def get_all_data():
