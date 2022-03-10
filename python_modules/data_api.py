@@ -5,9 +5,9 @@ Module for data manipulation and storage.
 # Imports
 import time
 from datetime import datetime
-from helper_api import helper_api as helper
 from google.oauth2.service_account import Credentials
 import gspread
+from python_modules.helper_api import helper_api as helper
 
 def _get_data_api():
     '''
