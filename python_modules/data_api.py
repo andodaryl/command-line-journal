@@ -180,7 +180,7 @@ def _get_data_api():
         ext_database.clear()
         ext_database.update('A:C', new_database)
 
-    def create_entry(text, timestamp, identity):
+    def create_entry(text, timestamp = None, identity = None):
         '''
         Adds new journal entry to ext_database.
         '''
@@ -204,7 +204,7 @@ def _get_data_api():
             journal_entry = JournalEntry(entry_found) if entry_found else None
         return journal_entry
 
-    def update_entry(identity, text, timestamp):
+    def update_entry(identity, text, timestamp = None):
         '''
         Updates existing journal entry.
         '''
