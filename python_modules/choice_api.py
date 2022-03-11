@@ -44,6 +44,28 @@ def _get_choice_api():
                 wait_for_keypress()
         attempt_retrieval()
 
+    def get_all_entries():
+        '''
+        Retrieve and print details of all journal entries.
+        '''
+        def attempt_retrieval():
+            print('\nRetrieving all existing journals... ')
+            try:
+                data_found = data.get_all_entries()
+                valid_data = helper.is_list(data_found) and len(data_found) > 0
+                if valid_data:
+                    print('\nJournals found!\n')
+                    for journal_found in data_found:
+                        print(f'{journal_found.details}\n')
+                else:
+                    raise ValueError
+            except ValueError:
+                print('\nNo journals found!')
+                choices = [('Cancel', exit), ('Try Again', attempt_retrieval)]
+                wait_for_keypress = bind_keys(choices)
+                wait_for_keypress()
+        attempt_retrieval()
+
     def update_entry():
         '''
         Requests user input to update journal entry.
@@ -139,6 +161,7 @@ def _get_choice_api():
         'get_entry': get_entry,
         'update_entry': update_entry,
         'delete_entry': delete_entry,
+        'get_all_entries': get_all_entries
     }
 
     return helper.namedtuple_from_dict('choice_api', _public_api)
