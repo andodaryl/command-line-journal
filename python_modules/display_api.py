@@ -14,6 +14,7 @@ def _get_display_api():
     _display = dict(
       welcome_msg = 'Welcome to Command Line Journal!\n',
       goodbye_msg = 'See you next time!\n',
+      main_menu_msg = '\nMain Menu\n'
     )
 
     display = helper.namedtuple_from_dict('display', _display)
@@ -33,6 +34,8 @@ def _get_display_api():
         '''
         Displays main menu.
         '''
+        print(display.main_menu_msg)
+
         choices = [
           ('Exit', exit_behaviour),
           ('Show All Journals', choice.get_all_entries),
@@ -45,6 +48,8 @@ def _get_display_api():
         wait_for_keypress = choice.bind_keys(choices)
 
         wait_for_keypress()
+
+        go_to_main_menu() # return to main menu once finished
 
     def try_again(behaviour_to_reattempt):
         '''
