@@ -189,7 +189,6 @@ def _get_data_api():
         if data_found:
             remove_titles = lambda: data_found.pop(0)
             remove_titles()
-            print(f'\n{data_found}')
             for entry_data in data_found:
                 new_journal = JournalEntry(entry_data)
                 entries_found.append(new_journal)
