@@ -118,23 +118,21 @@ With the help of this [tutorial](https://devcenter.heroku.com/articles/getting-s
 7. In the menu that appears at the top of the page, select the `Settings` button.
 8. Go to the `Config Vars` section and select the `Reveal Config Vars` button.
 9. For `Key` enter the word _port_, for `Value` enter the number _8000_, and then select the `Add` button.
-10. Repeat Step 9, however, for `Key` enter _GOOGLE_APPLICATION_CREDENTIALS_, for `Value` enter _creds.json_
-11. Repeat Step 9 again, however, for `Key` enter _GOOGLE_CREDENTIALS_, for `Value` enter credentials data e.g. _{...}_
+10. Repeat Step 9, however, for `Key` enter _CREDS_, for `Value` enter credentials data e.g. _{...}_
 11. Go to the `Buildpack` section and select the `Add Buildpack` button.
 12. Select `python` in the drop-down menu that appears and then select the `Save` button.
 13. Select the `Add Buildpack` button again and select `node.js` in the drop-down menu that appears and then select the `Save` button.
-14. Select the `Add Buildpack` button again and enter the URL `https://github.com/buyersight/heroku-google-application-credentials-buildpack` and then select the `Save` button.
 
-Note the buildpack must be in this order: _Python_ then _Node.js_ then the _URL_
+Note the buildpack must be in this order: _Python_ then _Node.js_
 
-15. In the menu that appears at the top of the page, select the `Deploy` button.
-16. Go to the `Deployment method` section and select the `Github` button to deploy via Github.
-17. Sign in to Github if required and authorize Heroku to connect to Github.
-18. Go to the `Connect to Github` section, enter the repository name, and select the `Search` button.
-19. Select the `Connect` button that appears beside the desired repository.
-20. Go to the `Automatic deploys` section, select the appropriate branch, and select the `Enable Automatic Deploys` button.
-21. For manual deployment, go to the `Manual deploy` section, select the appropriate branch, and select the `Deploy Branch` button.
-22. Carry out Step 21 to deploy the app immediately or Step 20 to deploy the app when changes are 'pushed'.
+14. In the menu that appears at the top of the page, select the `Deploy` button.
+15. Go to the `Deployment method` section and select the `Github` button to deploy via Github.
+16. Sign in to Github if required and authorize Heroku to connect to Github.
+17. Go to the `Connect to Github` section, enter the repository name, and select the `Search` button.
+18. Select the `Connect` button that appears beside the desired repository.
+19. Go to the `Automatic deploys` section, select the appropriate branch, and select the `Enable Automatic Deploys` button.
+20. For manual deployment, go to the `Manual deploy` section, select the appropriate branch, and select the `Deploy Branch` button.
+21. Carry out Step 20 to deploy the app immediately or Step 19 to deploy the app when changes are 'pushed'.
 
 The live page is available [here](https://command-line-journal.herokuapp.com/).
 
