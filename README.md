@@ -128,9 +128,16 @@ Screenshots:
 * Application displays a main menu with the following actions: exit, show all journals, create journal, retrieve journal, update journal, and delete journal.
   * These actions are numbered in integers.
   * The application requests an integer from the user to select the desired action.
+  * The main menu reappears after completing taking actions or cancelling a task, see next section.
+* User actions
   * Exiting the application is selected with the number 0 to avoid accidental termination of the app.
   * A message is displayed when the application terminates.
-  * The main menu reappears after completing taking actions or cancelling a task, see next section.
+  * Show all journals displays all available journals or the sub-menu if empty or an error occurs.
+  * Create journal requests text from the user or displays the sub-menu if an error occurs.
+  * Journal entry data are automatically created e.g. timestamp or integer identity.
+  * Retrieve journal requests an integer as the journal identity from the user and displays the target journal or sub-menu if an error occurs.
+  * Update journal requests an integer as the journal identity from the user and displays the target journal or sub-menu if an error occurs.
+  * Delete journal requests an integer as the journal identity from the user and displays success message or sub-emnu if an error occurs.
 
 ![Sub Menu](./dev/media/sub_menu.png)
 ![Cancel](./dev/media/cancel.png)  
