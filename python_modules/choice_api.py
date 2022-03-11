@@ -3,7 +3,6 @@ Module for CLI user interaction
 '''
 
 # Imports
-import keyboard
 from python_modules.data_api import data_api as data
 from python_modules.helper_api import helper_api as helper
 
@@ -58,25 +57,42 @@ def _get_choice_api():
         data.delete_entry(identity_given)
         print('Journal deleted!')
 
-    def bind_keys(key_func_pairs = None):
+    def bind_keys(pairs_list = None):
         '''
-        Bind keys to functions and returns function to wait for keypress.
+        Bind keys to functions.
+        Functions are activated according to user input.
         '''
-        next_func = lambda: None
+        # Validate Data
+        child_validator = lambda child: helper.is_tuple(child) and len(child) == 2
+        are_children_valid = lambda: helper.are_list_children(pairs_list, child_validator)
+        is_container_valid = lambda: helper.is_list(pairs_list)
+        valid_data =  is_container_valid() and are_children_valid()
+        behaviour_loaded = lambda: print('Warning, keys are not bound to functions.')
 
-        if key_func_pairs is not None:
-            def activate_response(key_detected):
-                behaviour_found = key_func_pairs.get(key_detected)
-                if behaviour_found:
-                    behaviour_found()
+        if valid_data:
+            def display_choices():
+                for choice_number, response_pair in enumerate(pairs_list):
+                    response_name = response_pair[0]
+                    print(f'[{choice_number}] {response_name} ')
+
+            def activate_response(user_input):
+                try:
+                    choice_number = int(user_input)
+                    response_pair = pairs_list[choice_number]
+                    response_func = response_pair[1]
+                    response_func()
+                except (IndexError, TypeError, ValueError):
+                    print('\nChoice not found, please try again...\n')
+                    wait_for_keypress()
 
             def wait_for_keypress():
-                key_pressed = keyboard.read_event(suppress=True)
-                activate_response(key_pressed)
+                display_choices()
+                user_input = input('\nEnter choice number >>> ')
+                activate_response(user_input)
 
-            next_func = wait_for_keypress
+            behaviour_loaded = wait_for_keypress
 
-        return next_func
+        return behaviour_loaded
 
     # Public API
     _public_api = {
