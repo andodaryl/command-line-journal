@@ -22,12 +22,19 @@ def _get_display_api():
     greet_user = lambda: print(display.welcome_msg)
     farewell_user = lambda: print(display.welcome_msg)
 
+    def exit_behaviour():
+        '''
+        Behaviour for exiting application.
+        '''
+        farewell_user()
+        exit()
+
     def go_to_main_menu():
         '''
         Displays main menu.
         '''
         choices = [
-          ('Exit', exit),
+          ('Exit', exit_behaviour),
           ('Show All Journals', choice.get_all_entries),
           ('Create Journal', choice.create_entry),
           ('Retrieve Journal', choice.get_entry),
