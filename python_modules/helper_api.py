@@ -25,6 +25,7 @@ def _get_helper_api():
     namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
 
     is_list = lambda obj: isinstance(obj, list)
+    is_str = lambda obj: isinstance(obj, str)
     is_tuple = lambda obj: isinstance(obj, tuple)
     are_list_children = lambda obj, truth_logic: all(truth_logic(child) for child in obj)
 
@@ -34,6 +35,7 @@ def _get_helper_api():
       'get_index': get_index,
       'is_list': is_list,
       'is_tuple': is_tuple,
+      'is_str': is_str,
       'are_list_children': are_list_children
     }
 
