@@ -8,6 +8,7 @@ def main():
     Container for main behaviour for application start.
     '''
     # Behaviour
-    return display
+    display.greet_user()
+    display.go_to_main_menu()
 
 main()
