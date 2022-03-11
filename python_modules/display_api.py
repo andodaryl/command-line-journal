@@ -12,9 +12,9 @@ def _get_display_api():
     '''
     # Config
     _display = dict(
-      welcome_msg = 'Welcome to Command Line Journal!\n',
-      goodbye_msg = 'See you next time!\n',
-      main_menu_msg = '\nMain Menu\n'
+      welcome_msg = '>>> Welcome to Command Line Journal!<<<\n',
+      goodbye_msg = '\nSee you next time!\n',
+      main_menu_msg = '[[[ Main Menu ]]]'
     )
 
     display = helper.namedtuple_from_dict('display', _display)
