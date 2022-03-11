@@ -38,12 +38,12 @@ MVP reached, project is currently dormant.
 Project terminated early due to time contraints. 
 
 Stage 1
-* ~User Input System~ - COMPLETE
-* ~Data Manipulation System~ - COMPLETE
-* ~Save System~ - COMPLETE
+* ~~User Input System~~ - COMPLETE
+* ~~Data Manipulation System~~ - COMPLETE
+* ~~Save System~~ - COMPLETE
 
 Stage 2
-* ~User Input Feedback~ - COMPLETE
+* ~~User Input Feedback~~ - COMPLETE
 * Backup System
 * New User Input: Custom ID/Timestamp with Error Handling
 
@@ -52,7 +52,7 @@ Stage 3
 * More Data Types For Journal Entries
 
 Stage X
-* Final testing and bug fixing
+* ~~Final testing and bug fixing~~ COMPLETE
 
 ## Design
 
@@ -60,9 +60,9 @@ Stage X
 
 [Drawio](https://www.diagrams.net/) was chosen for the wireframing environment as it offers desired functions for free and runs within the chosen coding environment (Gitpod) using an [unofficial plugin](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) for simplified access.
 
-![UI Logic](./dev/media/ui_logic.png)
-![API Logic](./dev/media/api_logic.png)
-![Data Structure](./dev/media/data_structure.png)
+![UI Logic](./dev/media/ui_logic.png)  
+![API Logic](./dev/media/api_logic.png)  
+![Data Structure](./dev/media/data_structure.png)  
 
 ### Front End
 
@@ -71,27 +71,31 @@ Currently this is the visual design choice to focus efforts on back-end developm
 
 ## Development Log
 
+### Changes
+
+1. Journal Entry uses timestamp to store time related data on database.
+2. More main menu items: show all journals, exit application.
+
 ### Features
 
 #### Implemented
 
 * Data Manipulation System 
+  * Backened logic CRUD operations on data.
 * Save System
-* User Input System
-* User Input Feedback
+  * Data is stored on Google Sheets via API.
+* User Input System and User Input Feedback
+  * Command line user interface for simplified user input (integer based) for activation of CRUD operations with printed feedback.
+
+_See Testing Section for Revelant Screenshots_
 
 #### Backlog
-
-### Changes
-
-1. Journal Entry uses timestamp to store time related data on database.
-2. More main menu items: show all journals, exit application
 
 ### Bugs
 
 #### Fixed  
 * Import Error caused by `pynput` module for Python - fixed by using `keyboard` module according to this [forum discussion](https://unix.stackexchange.com/questions/427345/keyboard-monitoring-without-display). Screenshot [here](./dev/media/pynput_error.png).
-* Import Error caused by `keyboard` module for Python, requires root - to be fixed by ~using `Python-evdev` module as an alternative.~ this may not be possible because of keyboard device requirements. Issue will be fixed using input() instead. Screenshot [here](./dev/media/keyboard_error.png).
+* Import Error caused by `keyboard` module for Python, requires root - to be fixed by ~~using `Python-evdev` module as an alternative.~~ this may not be possible because of keyboard device requirements. Issue will be fixed using input() instead. Screenshot [here](./dev/media/keyboard_error.png).
 
 #### Backlog
 
@@ -111,9 +115,45 @@ Screenshots:
 
 #### Manual + User Experience Testing
 
-1. Create, retrieve, update and delete journal entries via terminal.
+1. Create, retrieve, update and delete journal entries via terminal.  
+
+![Main Menu](./dev/media/main_menu.png)
+![Exit](./dev/media/exit.png)  
+![Show All](./dev/media/show_all.png)
+![Create Journal](./dev/media/create.png)  
+![Create Journal](./dev/media/retrieve.png)
+![Update Journal](./dev/media/update.png)  
+![Delete Journal](./dev/media/delete.png)
+
+* Application displays a main menu with the following actions: exit, show all journals, create journal, retrieve journal, update journal, and delete journal.
+  * These actions are numbered in integers.
+  * The application requests an integer from the user to select the desired action.
+  * Exiting the application is selected with the number 0 to avoid accidental termination of the app.
+  * A message is displayed when the application terminates.
+  * The main menu reappears after completing taking actions or cancelling a task, see next section.
+
+![Sub Menu](./dev/media/sub_menu.png)
+![Cancel](./dev/media/cancel.png)  
+![Try Again](./dev/media/try_again.png)
+
+
+* Additionally, when errors occur, a sub-menu is displayed with the following actions: cancel, and try again.
+  * These actions are numbered in integers.
+  * The application requests an integer from the user to select the desired action.
+  * Cancel displays the main menu.
+  * Try again reattempts the action.
+
 2. Store data in Google Drive for further processing.
+
+![Google Sheets Database](./dev/media/google_database.png)
+
+* Application is connected to a database via a Google API service account.
+* This allows the user to manipulate data stored in Google Sheets.
+  
 3. Save data even after exiting application.
+
+* Thanks to the Google Sheets database system, previously stored data can be accessed again even after terminating the app, see screenshots in Item 2.
+* Main menu actions allow users to retrieve existing data, see screenshots in Item 1.
 
 ## Deployment
 
