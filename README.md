@@ -33,13 +33,17 @@ As a user of this web application I want to be able to:
 
 Managed using Prince2 methodology in para-sequential stages where features are developed in phases during which the project can terminte while delivering a usable and meaningful set of product features. Stage X commences when all stages are completed or terminated early.
 
+MVP reached, project is currently dormant.
+
+Project terminated early due to time contraints. 
+
 Stage 1
-* User Input System
-* Data Manipulation System
-* Save System
+* ~User Input System~ - COMPLETE
+* ~Data Manipulation System~ - COMPLETE
+* ~Save System~ - COMPLETE
 
 Stage 2
-* User Input Feedback
+* ~User Input Feedback~ - COMPLETE
 * Backup System
 * New User Input: Custom ID/Timestamp with Error Handling
 
@@ -69,27 +73,38 @@ Currently this is the visual design choice to focus efforts on back-end developm
 
 * Data Manipulation System 
 * Save System
-
-#### Backlog
-
 * User Input System
 * User Input Feedback
+
+#### Backlog
 
 ### Bugs
 
 #### Fixed  
 * Import Error caused by `pynput` module for Python - fixed by using `keyboard` module according to this [forum discussion](https://unix.stackexchange.com/questions/427345/keyboard-monitoring-without-display). Screenshot [here](./dev/media/pynput_error.png).
+* Import Error caused by `keyboard` module for Python, requires root - to be fixed by ~using `Python-evdev` module as an alternative.~ this may not be possible because of keyboard device requirements. Issue will be fixed using input() instead. Screenshot [here](./dev/media/keyboard_error.png).
 
 #### Backlog
-* * Import Error caused by `keyboard` module for Python, requires root - to be fixed by ~using `Python-evdev` module as an alternative.~ this may not be possible because of keyboard device requirements. Issue will be fixed using input() instead. Screenshot [here](./dev/media/keyboard_error.png).
 
 ### Testing
 
 #### Validator Testing
 
-#### User Experience Testing
+No errors according to this [PEP8 validator tool](http://pep8online.com/).
 
-#### Manual Testing
+Screenshots:
+
+* [choice_api](./dev/media/choice_check.png)
+* [data_api](./dev/media/data_check.png)
+* [display_api](./dev/media/display_check.png)
+* [helper_api](./dev/media/helper_check.png)
+* [run](./dev/media/run_check.png)
+
+#### Manual + User Experience Testing
+
+1. Create, retrieve, update and delete journal entries via terminal.
+2. Store data in Google Drive for further processing.
+3. Save data even after exiting application.
 
 ## Deployment
 
