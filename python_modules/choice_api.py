@@ -38,7 +38,7 @@ def _get_choice_api():
                 else:
                     raise ValueError
             except ValueError:
-                print('\nJournal not found!\n')
+                print('\nJournal does not exist!')
                 choices = [('Cancel', exit), ('Try Again', attempt_retrieval)]
                 wait_for_keypress = bind_keys(choices)
                 wait_for_keypress()
@@ -63,7 +63,7 @@ def _get_choice_api():
                 else:
                     raise ValueError
             except ValueError:
-                print('\nJournal does not exist!\n')
+                print('\nJournal does not exist!')
                 choices = [('Cancel', exit), ('Try Again', attempt_update)]
                 wait_for_keypress = bind_keys(choices)
                 wait_for_keypress()
@@ -88,7 +88,7 @@ def _get_choice_api():
                 else:
                     raise ValueError
             except ValueError:
-                print('\nJournal does not exist!\n')
+                print('\nJournal does not exist!')
                 choices = [('Cancel', exit), ('Try Again', attempt_delete)]
                 wait_for_keypress = bind_keys(choices)
                 wait_for_keypress()
