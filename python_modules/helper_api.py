@@ -25,13 +25,15 @@ def _get_helper_api():
     namedtuple_from_dict = lambda name, dict: namedtuple(name, dict.keys())(*dict.values())
 
     is_list = lambda obj: isinstance(obj, list)
-    are_list_children = lambda obj, instance: all(isinstance(child, instance) for child in obj)
+    is_tuple = lambda obj: isinstance(obj, tuple)
+    are_list_children = lambda obj, truth_logic: all(truth_logic(child) for child in obj)
 
     # Public API
     _public_api = {
       'namedtuple_from_dict': namedtuple_from_dict,
       'get_index': get_index,
       'is_list': is_list,
+      'is_tuple': is_tuple,
       'are_list_children': are_list_children
     }
 
