@@ -15,24 +15,34 @@ def _get_choice_api():
 
     def create_entry():
         '''
-        Creates journal entry.
+        Requests user input to create journal entry.
         '''
-        print('Creating a new journal... ')
+        print('\nCreating a new journal...')
         text_given = input('Please enter text >>> ')
-        # Needs data validation and user feedback
         data.create_entry(text_given)
         print('Journal created!\n')
 
     def get_entry():
         '''
-        Retrieves journal entry.
+        Requests user input to retrieve journal entry based on identity.
         '''
-        print('Retrieving an existing journal... ')
-        identity_given = input('Please enter journal number >>> ')
-        # Needs data validation and user feedback
-        journal_found = data.get_entry(identity_given)
-        print('Journal found! \n')
-        print(f'{journal_found.details}\n')
+        print('\nRetrieving an existing journal... ')
+        def attempt_retrieval():
+            try:
+                user_input = input('Please enter journal number >>> ')
+                identity_given = int(user_input)
+                journal_found = data.get_entry(identity_given)
+                if journal_found:
+                    print('\nJournal found!\n')
+                    print(f'{journal_found.details}\n')
+                else:
+                    raise ValueError
+            except ValueError:
+                print('\nJournal not found!\n')
+                choices = [('Cancel', exit), ('Try Again', attempt_retrieval)]
+                wait_for_keypress = bind_keys(choices)
+                wait_for_keypress()
+        attempt_retrieval()
 
     def update_entry():
         '''
