@@ -35,9 +35,9 @@ def _get_data_api():
             "https://www.googleapis.com/auth/drive",
         ]
 
-        creds_data = Credentials.from_service_account_file("creds.json")
+        CREDS = Credentials.from_service_account_file("creds.json")
 
-        scoped_creds = creds_data.with_scopes(scope_list)
+        scoped_creds = CREDS.with_scopes(scope_list)
         gspread_client = gspread.authorize(scoped_creds)
 
         # get spreadsheet else create spreadsheet
