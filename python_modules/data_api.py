@@ -203,7 +203,6 @@ def _get_data_api():
             for entry_data in data_found:
                 new_journal = JournalEntry(entry_data)
                 entries_found.append(new_journal)
-                print(entry_data)
         return entries_found
 
     def create_entry(text, timestamp=None, identity=None):
