@@ -96,6 +96,7 @@ def _get_choice_api():
                     wait_for_keypress()
 
             def wait_for_keypress():
+                print('\nPlease choose an action:\n')
                 display_choices()
                 user_input = input('\nEnter choice number >>> ')
                 activate_response(user_input)
