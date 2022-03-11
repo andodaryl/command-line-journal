@@ -108,30 +108,33 @@ Screenshots:
 
 ## Deployment
 
-With the help of this [tutorial](https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true), the website was deployed to Heroku using the following steps:
-0. Enter and run `pip3 freeze > requirements.txt` to record app dependencies.
-1. After signing up / logging in to Heroku, select the `New` button.
-2. Select `Create New App` in the drop-down menu that appears.
-3. Enter a unique name for your application.
-4. Select a region.
-5. Select the `Create App` button.
-6. In the menu that appears at the top of the page, select the `Settings` button.
-7. Go to the `Config Vars` section and select the `Reveal Config Vars` button.
-8. For `Key` enter the word _port_, for `Value` enter the number _8000_, and then select the `Add` button.
-9. Go to the `Buildpack` section and select the `Add Buildpack` button.
-10. Select `python` in the drop-down menu that appears.
-11. Select the `Add Buildpack` button again and select `node.js` in the drop-down menu that appears.
+With the help of this [tutorial](https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true) and this [tutorial](https://devdojo.com/bryanborge/adding-google-cloud-credentials-to-heroku), the website was deployed to Heroku using the following steps:
+1. Enter and run `pip3 freeze > requirements.txt` to record app dependencies.
+2. After signing up / logging in to Heroku, select the `New` button.
+3. Select `Create New App` in the drop-down menu that appears.
+4. Enter a unique name for your application.
+5. Select a region.
+6. Select the `Create App` button.
+7. In the menu that appears at the top of the page, select the `Settings` button.
+8. Go to the `Config Vars` section and select the `Reveal Config Vars` button.
+9. For `Key` enter the word _port_, for `Value` enter the number _8000_, and then select the `Add` button.
+10. Repeat Step 9, however, for `Key` enter _GOOGLE_APPLICATION_CREDENTIALS_, for `Value` enter _creds.json_
+11. Repeat Step 9 again, however, for `Key` enter _GOOGLE_CREDENTIALS_, for `Value` enter credentials data e.g. _{...}_
+11. Go to the `Buildpack` section and select the `Add Buildpack` button.
+12. Select `python` in the drop-down menu that appears and then select the `Save` button.
+13. Select the `Add Buildpack` button again and select `node.js` in the drop-down menu that appears and then select the `Save` button.
+14. Select the `Add Buildpack` button again and enter the URL `https://github.com/buyersight/heroku-google-application-credentials-buildpack` and then select the `Save` button.
 
-Note _Python_ must be added to the buildpack before _Node.js_
+Note the buildpack must be in this order: _Python_ then _Node.js_ then the _URL_
 
-12. In the menu that appears at the top of the page, select the `Deploy` button.
-13. Go to the `Deployment method` section and select the `Github` button to deploy via Github.
-14. Sign in to Github if required and authorize Heroku to connect to Github.
-15. Go to the `Connect to Github` section, enter the repository name, and select the `Search` button.
-16. Select the `Connect` button that appears beside the desired repository.
-17. Go to the `Automatic deploys` section, select the appropriate branch, and select the `Enable Automatic Deploys` button.
-18. For manual deployment, go to the `Manual deploy` section, select the appropriate branch, and select the `Deploy Branch` button.
-19. Carry out Step 18 to deploy the app immediately or Step 17 to deploy the app when changes are 'pushed'.
+15. In the menu that appears at the top of the page, select the `Deploy` button.
+16. Go to the `Deployment method` section and select the `Github` button to deploy via Github.
+17. Sign in to Github if required and authorize Heroku to connect to Github.
+18. Go to the `Connect to Github` section, enter the repository name, and select the `Search` button.
+19. Select the `Connect` button that appears beside the desired repository.
+20. Go to the `Automatic deploys` section, select the appropriate branch, and select the `Enable Automatic Deploys` button.
+21. For manual deployment, go to the `Manual deploy` section, select the appropriate branch, and select the `Deploy Branch` button.
+22. Carry out Step 21 to deploy the app immediately or Step 20 to deploy the app when changes are 'pushed'.
 
 The live page is available [here](https://command-line-journal.herokuapp.com/).
 
@@ -170,6 +173,8 @@ Tutorials
 * [Getters and Setters in Python](https://www.geeksforgeeks.org/getter-and-setter-in-python/)
 * [Nametuples in Python](https://www.freecodecamp.org/news/python-namedtuple-examples-how-to-create-and-work-with-namedtuples/)
 * [Detect Key Press in Python](https://www.geeksforgeeks.org/how-to-detect-if-a-specific-key-pressed-using-python/)
+* [Deployment to Heroku](https://devcenter.heroku.com/articles/getting-started-with-python?singlepage=true)
+* [Adding creds.json to Heroku](https://devdojo.com/bryanborge/adding-google-cloud-credentials-to-heroku)
 
 Development Tools / Sources
 
