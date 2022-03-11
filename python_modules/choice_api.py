@@ -71,13 +71,28 @@ def _get_choice_api():
 
     def delete_entry():
         '''
-        Creates journal entry.
+        Requests user input to delete journal entry.
         '''
         print('Deleting an existing journal... ')
-        identity_given = input('Please enter journal number >>> ')
-        # Needs data validation and user feedback
-        data.delete_entry(identity_given)
-        print('Journal deleted!')
+        def attempt_delete():
+            try:
+                user_input = input('Please enter journal number >>> ')
+                identity_given = int(user_input)
+                is_journal_found = lambda: data.get_entry(identity_given)
+                if is_journal_found():
+                    data.delete_entry(identity_given)
+                    if not is_journal_found():
+                        print('\nJournal deleted!\n')
+                    else:
+                        raise ValueError
+                else:
+                    raise ValueError
+            except ValueError:
+                print('\nJournal does not exist!\n')
+                choices = [('Cancel', exit), ('Try Again', attempt_delete)]
+                wait_for_keypress = bind_keys(choices)
+                wait_for_keypress()
+        attempt_delete()
 
     def bind_keys(pairs_list = None):
         '''
