@@ -21,7 +21,7 @@ def _get_display_api():
 
     # Behaviour
     greet_user = lambda: print(display.welcome_msg)
-    farewell_user = lambda: print(display.welcome_msg)
+    farewell_user = lambda: print(display.goodbye_msg)
 
     def exit_behaviour():
         '''
