@@ -187,9 +187,13 @@ def _get_data_api():
         data_found = get_all_data()
         entries_found = []
         if data_found:
-            for _, entry_data in data_found:
+            remove_titles = lambda: data_found.pop(0)
+            remove_titles()
+            print(f'\n{data_found}')
+            for entry_data in data_found:
                 new_journal = JournalEntry(entry_data)
                 entries_found.append(new_journal)
+                print(entry_data)
         return entries_found
 
     def create_entry(text, timestamp = None, identity = None):
