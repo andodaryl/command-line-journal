@@ -46,11 +46,20 @@ def _get_display_api():
 
         wait_for_keypress()
 
+    def try_again(behaviour_to_reattempt):
+        '''
+        Displays menu to reattempt action.
+        '''
+        choices = [('Cancel', go_to_main_menu), ('Try Again', behaviour_to_reattempt)]
+        wait_for_keypress = choice.bind_keys(choices)
+        wait_for_keypress()
+
     # Public API
     _public_api = dict(
         greet_user = greet_user,
         farewell_user = farewell_user,
-        go_to_main_menu = go_to_main_menu
+        go_to_main_menu = go_to_main_menu,
+        try_again = try_again
     )
 
     return helper.namedtuple_from_dict('display_api', _public_api)
