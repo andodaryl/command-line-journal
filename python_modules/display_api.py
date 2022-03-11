@@ -3,6 +3,7 @@ Module for CLI user display
 '''
 
 # Imports
+from sys import exit as safe_exit
 from python_modules.choice_api import choice_api as choice
 from python_modules.helper_api import helper_api as helper
 
@@ -28,7 +29,7 @@ def _get_display_api():
         Behaviour for exiting application.
         '''
         farewell_user()
-        exit()
+        safe_exit()
 
     def go_to_main_menu():
         '''
