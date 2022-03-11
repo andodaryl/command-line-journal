@@ -46,16 +46,28 @@ def _get_choice_api():
 
     def update_entry():
         '''
-        Updates journal entry.
+        Requests user input to update journal entry.
         '''
-        print('Updating an existing journal... ')
-        identity_given = input('Please enter journal number >>> ')
-        text_given = input('Please enter new text >>> ')
-        # Needs data validation and user feedback
-        data.update_entry(identity_given, text_given)
-        updated_journal = data.get_entry(identity_given)
-        print('Journal updated!\n')
-        print(f'{updated_journal.details}\n')
+        print('\nUpdating an existing journal... ')
+        def attempt_update():
+            try:
+                user_input = input('Please enter journal number >>> ')
+                identity_given = int(user_input)
+                journal_found = data.get_entry(identity_given)
+                if journal_found:
+                    text_given = input('Please enter new text >>> ')
+                    data.update_entry(identity_given, text_given)
+                    updated_journal = data.get_entry(identity_given)
+                    print('\nJournal updated!\n')
+                    print(f'{updated_journal.details}\n')
+                else:
+                    raise ValueError
+            except ValueError:
+                print('\nJournal does not exist!\n')
+                choices = [('Cancel', exit), ('Try Again', attempt_update)]
+                wait_for_keypress = bind_keys(choices)
+                wait_for_keypress()
+        attempt_update()
 
     def delete_entry():
         '''
