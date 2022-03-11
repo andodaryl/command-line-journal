@@ -173,7 +173,7 @@ Testing
 
 Content Generators / Sources
 * [Code Institute Python Environment Template](https://github.com/Code-Institute-Org/python-essentials-template)
-* [Code Formatter](https://webformatter.com/)
+* [Code Formatter](https://extendsclass.com/python-formatter.html)
 
 Frameworks / Libraries
 * [Gpsread for Python](https://gspread.org/)
