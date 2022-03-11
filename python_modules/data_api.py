@@ -180,6 +180,18 @@ def _get_data_api():
         ext_database.clear()
         ext_database.update('A:C', new_database)
 
+    def get_all_entries():
+        '''
+        Convert database data retrieved to list of JournalEntry instances.
+        '''
+        data_found = get_all_data()
+        entries_found = []
+        if data_found:
+            for _, entry_data in data_found:
+                new_journal = JournalEntry(entry_data)
+                entries_found.append(new_journal)
+        return entries_found
+
     def create_entry(text, timestamp = None, identity = None):
         '''
         Adds new journal entry to ext_database.
@@ -248,6 +260,7 @@ def _get_data_api():
     _public_api = {
         'create_entry': create_entry,
         'get_entry': get_entry,
+        'get_all_entries': get_all_entries,
         'update_entry': update_entry,
         'delete_entry': delete_entry,
     }
