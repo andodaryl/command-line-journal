@@ -5,7 +5,7 @@ Module for CLI user interaction
 # Imports
 from python_modules.data_api import data_api as data
 from python_modules.helper_api import helper_api as helper
-from python_modules.display_api import display_api as display
+import python_modules.display_api as display
 
 def _get_choice_api():
     '''
@@ -40,9 +40,7 @@ def _get_choice_api():
                     raise ValueError
             except ValueError:
                 print('\nJournal does not exist!')
-                choices = [('Cancel', display.go_to_main_menu), ('Try Again', attempt_retrieval)]
-                wait_for_keypress = bind_keys(choices)
-                wait_for_keypress()
+                display.display_api.try_again(attempt_retrieval)
         attempt_retrieval()
 
     def get_all_entries():
@@ -62,9 +60,7 @@ def _get_choice_api():
                     raise ValueError
             except ValueError:
                 print('\nNo journals found!')
-                choices = [('Cancel', display.go_to_main_menu), ('Try Again', attempt_retrieval)]
-                wait_for_keypress = bind_keys(choices)
-                wait_for_keypress()
+                display.display_api.try_again(attempt_retrieval)
         attempt_retrieval()
 
     def update_entry():
@@ -87,9 +83,7 @@ def _get_choice_api():
                     raise ValueError
             except ValueError:
                 print('\nJournal does not exist!')
-                choices = [('Cancel', display.go_to_main_menu), ('Try Again', attempt_update)]
-                wait_for_keypress = bind_keys(choices)
-                wait_for_keypress()
+                display.display_api.try_again(attempt_update)
         attempt_update()
 
     def delete_entry():
@@ -112,9 +106,7 @@ def _get_choice_api():
                     raise ValueError
             except ValueError:
                 print('\nJournal does not exist!')
-                choices = [('Cancel', display.go_to_main_menu), ('Try Again', attempt_delete)]
-                wait_for_keypress = bind_keys(choices)
-                wait_for_keypress()
+                display.display_api.try_again(attempt_delete)
         attempt_delete()
 
     def bind_keys(pairs_list = None):
