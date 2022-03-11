@@ -60,6 +60,10 @@ Stage X
 
 [Drawio](https://www.diagrams.net/) was chosen for the wireframing environment as it offers desired functions for free and runs within the chosen coding environment (Gitpod) using an [unofficial plugin](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio) for simplified access.
 
+![UI Logic](./dev/media/ui_logic.png)
+![API Logic](./dev/media/api_logic.png)
+![Data Structure](./dev/media/data_structure.png)
+
 ### Front End
 
 A template is used to display a terminal window for user input.
@@ -77,6 +81,11 @@ Currently this is the visual design choice to focus efforts on back-end developm
 * User Input Feedback
 
 #### Backlog
+
+### Changes
+
+1. Journal Entry uses timestamp to store time related data on database.
+2. More main menu items: show all journals, exit application
 
 ### Bugs
 
