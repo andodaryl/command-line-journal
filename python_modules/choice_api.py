@@ -20,7 +20,7 @@ def _get_choice_api():
         print('\nCreating a new journal...')
         text_given = input('Please enter text >>> ')
         data.create_entry(text_given)
-        print('Journal created!\n')
+        print('\nJournal created!\n')
 
     def get_entry():
         '''
